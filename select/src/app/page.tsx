@@ -1,34 +1,24 @@
 'use client'
+import { useState } from 'react';
 import { Itens } from '@/components/data/data';
 import SelectDefault from '@/components/select/Select';
-import { useState } from 'react';
-
 
 export default function Home() {
-  const [selectUm, setSelectUm] = useState('');
-  const [inputDois, setInputDois] = useState('');
+  const [selectCargo, setSelectCargo] = useState('');
  
-
-  function setUm(value: string) {
-    setSelectUm(value);
+  function setCargo(value: string) {
+    setSelectCargo(value);
   }
-
-  function setDois(value: string) {
-    setInputDois(value);
-  }
-
 
 
   function mostrarValor(){
-    console.log("Valor Um: ", selectUm)
-    console.log("Valor Dois: ", inputDois)
+    console.log("Valor Um: ", selectCargo)
   }
-
 
   return (
     <div>
-      <SelectDefault options={Itens} onInputSearchChange={setUm}/>
-      <SelectDefault options={Itens} onInputSearchChange={setDois}/>
+      <SelectDefault name='cargos' options={Itens} onInputSearchChange={setCargo}/>
+     
       <button onClick={mostrarValor}>Entrar</button>
     </div>
   )
