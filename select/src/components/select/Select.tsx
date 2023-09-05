@@ -1,7 +1,6 @@
 import { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
-import { AiOutlineClose } from 'react-icons/ai'
-
+import { AiOutlineClose, AiOutlineExclamationCircle } from 'react-icons/ai'
 import { Container } from './Styled'
 
 interface Option{
@@ -9,21 +8,24 @@ interface Option{
   label: string
 }
 
+
 interface PropsData extends InputHTMLAttributes<HTMLInputElement> {
-  options: Array<Option>;
-  onInputSearchChange: (inputSearch: string) => void;
+  options: Array<Option>
+  erro?: string
+  onInputSearchChange: (inputSearch: number) => void;
 }
 
-const SelectDefault: React.FC<PropsData> = ({options, onInputSearchChange, ...rest}) => {
+const SelectDefault: React.FC<PropsData> = ({options, onInputSearchChange, erro,  ...rest}) => {
   const [filterSearch, setFilerSearch] = useState<Option[]>([])
   const [inputSearch, setInputSearch] = useState('');
   const [sugestion, setSugestion] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState<string | undefined>(erro)
+  
 
   useEffect(() => {
     if(inputSearch === ''){
       setFilerSearch([])   
-    }
+    }    
   }, [inputSearch])
 
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {   //faz o filtro dos valores
@@ -40,30 +42,33 @@ const SelectDefault: React.FC<PropsData> = ({options, onInputSearchChange, ...re
     }
   }
 
-  function handleComplete(item:string){
+  function handleComplete(item:string, id:number){
     setInputSearch(item);
     setFilerSearch([]);
-    onInputSearchChange(item);
+    onInputSearchChange(id);
   }
 
   function clearFilter(){ 
     setFilerSearch([])
     setInputSearch('')
-    onInputSearchChange('');
+    onInputSearchChange(0);  
   }
+
+  
 
   return(
     <Container>
       <div className='searchInput'>
         <BsSearch/>
-        <input ref={inputRef} {...rest} value={inputSearch} onChange={handleFilter}  type="text" placeholder='Pesquisa...'/>
+        <input  {...rest} value={inputSearch} onChange={handleFilter}  type="text" placeholder='Pesquisa...'/>
         {inputSearch !== "" ? <AiOutlineClose onClick={clearFilter}/> : null}
+        {erro && <AiOutlineExclamationCircle/>}
       </div>
         {sugestion &&
           <div className="dataResult">
           {filterSearch.map((item, index) => {
             return(
-              <div key={item.id} className='dataItem' onClick={() => handleComplete(item.label)}>
+              <div key={item.id} className='dataItem' onClick={() => handleComplete(item.label, item.id)}>
                 <p>{item.label}</p>
               </div>
             )
