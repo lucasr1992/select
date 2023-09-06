@@ -27,6 +27,7 @@ export const Search = styled.div`
     background: none;
     font-size: 1.2rem;
     width: 55%;
+    
   }  
 `
 

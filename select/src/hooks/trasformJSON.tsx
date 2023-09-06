@@ -7,7 +7,7 @@ interface PropsFunction{
   options: Array<Option>
 }
 
-export default function Reduce({options}: PropsFunction){
+export default function TransformJSON({options}: PropsFunction){
   const itemRev: { [key: string]: number | string} = {};
   for (const opt of options) {
     itemRev[opt.campo] = opt.valor;
