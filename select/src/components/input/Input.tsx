@@ -24,7 +24,7 @@ const InputDefault: React.FC<PropsData> = ({placeholder, onInputSearchChange, er
   }, [inputSearch, erro])
 
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {   //faz o filtro dos valores
-    setInputSearch(e.target.value) 
+    setInputSearch(e.target.value.toUpperCase()) 
     if(e.target.value !== ''){
       setFilled('true') 
     }else{ 
