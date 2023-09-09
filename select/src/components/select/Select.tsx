@@ -35,6 +35,11 @@ const SelectDefault: React.FC<PropsData> = ({placeholder, options, onInputSearch
     }
   }, [inputSearch, erro])
 
+  const Focused = () => {
+    setFilerSearch(options)
+    
+  }
+
   const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {   //faz o filtro dos valores
     setInputSearch(e.target.value)
     const newFilter = options.filter((value) => {
@@ -74,7 +79,9 @@ const SelectDefault: React.FC<PropsData> = ({placeholder, options, onInputSearch
     setFocus('false')
     if(e.target.value !== ''){  
       handleFilter(e)
-    }      
+    }else{
+      setFilerSearch([])
+    }
   }
 
   return(
@@ -83,7 +90,7 @@ const SelectDefault: React.FC<PropsData> = ({placeholder, options, onInputSearch
         <FindIcon errored={errored} filled={filled} focused={focus}>
           <BsSearch/>
         </FindIcon>
-        <input onBlur={LostFocus} onFocus={() => setFocus('true')} autoComplete="off" {...rest} value={inputSearch} onChange={handleFilter}  type="text" placeholder={placeholder}/>
+        <input onBlur={LostFocus} onFocus={() => {setFocus('true'), Focused()}} autoComplete="off" {...rest} value={inputSearch} onChange={handleFilter}  type="text" placeholder={placeholder}/>
         <CleanIcon errored={errored} filled={filled} focused={focus}>
           {inputSearch !== "" ? <AiOutlineClose onClick={clearFilter}/> : null}
         </CleanIcon>
